@@ -571,6 +571,15 @@
   /* Liens de pied separes des sources : ils ne creditent personne. */
   #credits .cr-foot { margin: 9px 0 0; padding-top: 8px; border-top: 1px solid #322f2b; }
   #credits #updated { display: block; margin-top: 5px; }
+  /* Deux lignes sobres plutôt que des encarts colorés : elles se lisent comme
+     les sources voisines et ne concurrencent pas la carte. */
+  #credits .cr-sites { margin: 9px 0 0; padding-top: 8px; border-top: 1px solid #322f2b;
+                       display: grid; gap: 5px; }
+  #credits .cr-sites h2 { margin: 0; font-size: inherit; font-weight: 600; color: #7d7873; }
+  #credits .cr-sites a { display: block; border: 0; }
+  #credits .cr-sites a b { color: #bcb7b1; border-bottom: 1px solid #3a3733; }
+  #credits .cr-sites a:hover b { color: var(--ink); }
+  #credits .cr-sites a span { display: block; }
   #cr-btn { display: block; font: inherit; font-size: 11.5px; font-weight: 600;
             color: #bcb7b1; text-align: left; cursor: pointer; }
   #cr-btn:hover { color: var(--ink); }

@@ -631,6 +631,16 @@ export const STRINGS = {
   'credits.legal.href': {
     fr: '/mentions-legales.html', es: '/aviso-legal.html',
   },
+  /* Les noms de site ne se traduisent pas : seule leur accroche change. */
+  'credits.sites': { fr: 'Du même auteur', es: 'Del mismo autor' },
+  'credits.sites.france': {
+    fr: 'les statistiques de la France, thème par thème',
+    es: 'las estadísticas de Francia, tema por tema',
+  },
+  'credits.sites.presi': {
+    fr: 'les sondages de l’élection présidentielle',
+    es: 'los sondeos de las elecciones presidenciales francesas',
+  },
   'credits.updated': {
     fr: '— données extraites le {date} (heure de {zone}).',
     es: '— datos extraídos el {date} (hora de {zone}).',
