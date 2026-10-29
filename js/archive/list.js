@@ -4,11 +4,11 @@ import { fmt, nf } from '../util/format.js';
 
 // L'API renvoie déjà les feux du plus récent au plus ancien (voir doc §2) :
 // aucun tri à refaire ici.
-export function renderList(container, fires, onSelect) {
+export function renderList(container, fires, onSelect, emptyKey = 'archive.empty') {
   container.innerHTML = '';
   if (!fires.length) {
     container.append(Object.assign(document.createElement('p'), {
-      className: 'archive-status', textContent: t('archive.empty'),
+      className: 'archive-status', textContent: t(emptyKey),
     }));
     return;
   }

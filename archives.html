@@ -34,6 +34,7 @@
 <link rel="modulepreload" href="/js/archive/adapt.js">
 <link rel="modulepreload" href="/js/archive/state.js">
 <link rel="modulepreload" href="/js/archive/list.js">
+<link rel="modulepreload" href="/js/archive/filter.js">
 <link rel="modulepreload" href="/js/archive/detail.js">
 </head>
 <body>
@@ -67,6 +68,19 @@
     Tous les incendies signalés par PSFDF et suivis par Flamap, du plus récent
     au plus ancien. Cliquez sur un feu pour rejouer son évolution.
   </p>
+  <form id="archive-filter" class="archive-filter" hidden>
+    <label><span data-i18n="archive.filter.label">Afficher</span>
+      <select id="archive-year">
+        <option value="" data-i18n="archive.filter.all">Toutes les années</option>
+        <option value="period" data-i18n="archive.filter.period">Période personnalisée…</option>
+      </select>
+    </label>
+    <span id="archive-period" class="archive-period" hidden>
+      <label><span data-i18n="archive.filter.from">Du</span> <input id="archive-from" type="date"></label>
+      <label><span data-i18n="archive.filter.to">au</span> <input id="archive-to" type="date"></label>
+    </span>
+    <span id="archive-count" class="archive-count" aria-live="polite"></span>
+  </form>
   <p id="archive-list-status" class="archive-status" aria-live="polite"></p>
   <ul id="archive-cards" class="archive-cards"></ul>
   <aside class="archive-sites" aria-labelledby="archive-sites-title">

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { fitBoundsFor, toBurnt, toHotspots } from '../../js/archive/adapt.js';
+import { filterFires, yearsOf } from '../../js/archive/filter.js';
 
 
 const FIRMS = [
@@ -52,4 +53,36 @@ test('fitBoundsFor renvoie un rectangle centré et généreux', () => {
   // marge de 15 % au-delà du rayon fourni, pas un cadrage serré
   const halfWidthKm = (east - west) / 2 * 111.32 * Math.cos(43.49 * Math.PI / 180);
   assert.ok(halfWidthKm > 10 && halfWidthKm < 13);
+});
+
+const at = (y, m, d) => Math.floor(new Date(y, m - 1, d, 12).getTime() / 1000);
+const FIRES = [
+  { id: 'a', first_ts: at(2026, 8, 3), last_ts: at(2026, 8, 5) },
+  { id: 'b', first_ts: at(2025, 12, 30), last_ts: at(2026, 1, 2) },
+  { id: 'c', first_ts: at(2024, 7, 14), last_ts: at(2024, 7, 14) },
+];
+const ids = fires => fires.map(f => f.id);
+
+test('yearsOf liste les années couvertes, de la plus récente à la plus ancienne', () => {
+  assert.deepEqual(yearsOf(FIRES), [2026, 2025, 2024]);
+  assert.deepEqual(yearsOf([]), []);
+});
+
+test('filterFires par année retient les feux qui chevauchent l’année', () => {
+  assert.deepEqual(ids(filterFires(FIRES, { year: 2026 })), ['a', 'b']);
+  assert.deepEqual(ids(filterFires(FIRES, { year: 2025 })), ['b']);
+  assert.deepEqual(ids(filterFires(FIRES, { year: 2023 })), []);
+});
+
+test('filterFires par période inclut le jour de fin et accepte une borne ouverte', () => {
+  assert.deepEqual(ids(filterFires(FIRES, { from: '2026-08-05', to: '2026-08-05' })), ['a']);
+  assert.deepEqual(ids(filterFires(FIRES, { from: '2026-01-01' })), ['a', 'b']);
+  assert.deepEqual(ids(filterFires(FIRES, { to: '2024-12-31' })), ['c']);
+  // bornes inversées remises dans l'ordre
+  assert.deepEqual(ids(filterFires(FIRES, { from: '2024-07-31', to: '2024-07-01' })), ['c']);
+});
+
+test('filterFires sans critère renvoie toute la liste', () => {
+  assert.equal(filterFires(FIRES, {}), FIRES);
+  assert.equal(filterFires(FIRES, { from: '', to: '' }), FIRES);
 });

@@ -966,7 +966,20 @@ export const STRINGS = {
     fr: 'Aucun feu archivé pour le moment.',
     es: 'Ningún incendio archivado por el momento.',
   },
-  'archive.burnt.start': { fr: 'Départ le {date}', es: 'Inicio el {date}' },
+  'archive.filter.label': { fr: 'Afficher', es: 'Mostrar' },
+  'archive.filter.all': { fr: 'Toutes les années', es: 'Todos los años' },
+  'archive.filter.period': { fr: 'Période personnalisée…', es: 'Periodo personalizado…' },
+  'archive.filter.from': { fr: 'Du', es: 'Del' },
+  'archive.filter.to': { fr: 'au', es: 'al' },
+  'archive.filter.count': {
+    fr: { one: '{count} feu', other: '{count} feux' },
+    es: { one: '{count} incendio', other: '{count} incendios' },
+  },
+  'archive.filter.none': {
+    fr: 'Aucun feu archivé sur cette période.',
+    es: 'Ningún incendio archivado en este periodo.',
+  },
+  'archive.burnt.start':{ fr: 'Départ le {date}', es: 'Inicio el {date}' },
   'archive.commune.unknown': { fr: 'Commune inconnue', es: 'Municipio desconocido' },
   'archive.surface.max': {
     fr: 'ha (surface maximale connue)',

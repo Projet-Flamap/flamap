@@ -1,6 +1,7 @@
 import { t } from '../i18n.js';
 import { fetchFireList } from './api.js';
 import { renderList } from './list.js';
+import { filterFires, yearsOf } from './filter.js';
 import { openFire } from './detail.js';
 
 const listEl = document.getElementById('archive-list');
@@ -19,6 +20,43 @@ const detailElements = {
   statusEl: document.getElementById('archive-detail-status'),
 };
 
+const filterEl = document.getElementById('archive-filter');
+const yearSelect = document.getElementById('archive-year');
+const periodEl = document.getElementById('archive-period');
+const fromInput = document.getElementById('archive-from');
+const toInput = document.getElementById('archive-to');
+const countEl = document.getElementById('archive-count');
+
+let allFires = [];
+
+// Filtre par année ou période : la liste complète est déjà en mémoire, on ne
+// fait que la retrier côté client — aucun appel supplémentaire à l'API. Le
+// filtre vit dans le DOM, il survit donc à un aller-retour vers un feu.
+function fillYears(fires) {
+  const periodOption = yearSelect.querySelector('option[value="period"]');
+  for (const year of yearsOf(fires)) {
+    periodOption.before(new Option(String(year), String(year)));
+  }
+}
+
+function currentFilter() {
+  if (yearSelect.value === 'period') return { from: fromInput.value, to: toInput.value };
+  return yearSelect.value ? { year: Number(yearSelect.value) } : {};
+}
+
+function applyFilter() {
+  periodEl.hidden = yearSelect.value !== 'period';
+  const fires = filterFires(allFires, currentFilter());
+  countEl.textContent = t('archive.filter.count', { n: fires.length, count: fires.length });
+  renderList(cardsEl, fires, fireId => showDetail(fireId),
+    fires.length === allFires.length ? 'archive.empty' : 'archive.filter.none');
+}
+
+yearSelect.addEventListener('change', applyFilter);
+fromInput.addEventListener('change', applyFilter);
+toInput.addEventListener('change', applyFilter);
+filterEl.addEventListener('submit', event => event.preventDefault());
+
 let currentFire = null; // { destroy }
 // Incrémenté à chaque navigation : une réponse asynchrone qui revient après
 // coup (retour/avant rapide, double clic) se reconnaît obsolète et se détruit
@@ -36,7 +74,10 @@ function loadFireList() {
     document.createTextNode(t('archive.loading')));
   fireListPromise = fetchFireList().then(fires => {
     listStatusEl.textContent = '';
-    renderList(cardsEl, fires, fireId => showDetail(fireId));
+    allFires = fires;
+    fillYears(fires);
+    filterEl.hidden = !fires.length;
+    applyFilter();
   }).catch(error => {
     console.error(t('archive.list.errorLog'), error);
     listStatusEl.textContent = t('archive.list.error');
