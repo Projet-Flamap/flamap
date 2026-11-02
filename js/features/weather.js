@@ -10,11 +10,11 @@ const THERMAL_URL = 'data/thermal.json';
 // Emprise du géocodage inverse de la Géoplateforme, qui ne couvre que la France.
 const BAN_BBOX = [-5.5, 41.0, 10.0, 51.5];
 
-export function weatherCoordinates(point) {
+export function weatherCoordinates(point, digits = 3) {
   const meridian = t(point.lat >= 0 ? 'format.compass.north' : 'format.compass.south');
   const parallel = t(point.lng >= 0 ? 'format.compass.east' : 'format.compass.west');
-  return `${Math.abs(point.lat).toFixed(3)}° ${meridian}`
-       + `, ${Math.abs(point.lng).toFixed(3)}° ${parallel}`;
+  return `${Math.abs(point.lat).toFixed(digits)}° ${meridian}`
+       + `, ${Math.abs(point.lng).toFixed(digits)}° ${parallel}`;
 }
 
 export function createWeatherController({

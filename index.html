@@ -252,6 +252,13 @@
   </svg><span class="wide" data-i18n="layers.aria">Calques</span>
 </button>
 <div id="layers" class="glass">
+  <fieldset id="basemap">
+    <legend data-i18n="layers.basemap">Fond de carte</legend>
+    <label><input type="radio" name="basemap" value="satellite"
+                  data-analytics-layer="basemap-satellite" checked> <span data-i18n="layers.basemap.satellite">satellite</span></label>
+    <label><input type="radio" name="basemap" value="plan"
+                  data-analytics-layer="basemap-plan"> <span data-i18n="layers.basemap.plan">plan IGN</span></label>
+  </fieldset>
   <label><input type="checkbox" id="ck-psfdf"
                 data-analytics-layer="psfdf" checked> <span data-i18n="layers.psfdf">incendies signalés (PSFDF, détection auto)</span></label>
   <label><input type="checkbox" id="ck-hotspots" data-analytics-layer="hotspots" checked> <span data-i18n="layers.hotspots">foyers détectés</span></label>
@@ -505,7 +512,7 @@
           servis par</span> <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (CC BY 4.0)</li>
       <li><b data-i18n="credits.smoke">Fumée</b> — <span data-i18n="credits.smoke.note">simulation indicative à partir de la puissance radiative FIRMS et du vent modélisé,
           et non mesure de qualité de l'air</span></li>
-      <li><b data-i18n="credits.base">Fond</b> — <span data-i18n="credits.base.ign">ortho-photo</span> <a href="https://geoservices.ign.fr/" target="_blank" rel="noopener">IGN-F/Géoplateforme</a>,
+      <li><b data-i18n="credits.base">Fond</b> — <span data-i18n="credits.base.ign">ortho-photo et Plan IGN</span> <a href="https://geoservices.ign.fr/" target="_blank" rel="noopener">IGN-F/Géoplateforme</a>,
           <span data-i18n="credits.base.outside">hors France</span> <a href="https://s2maps.eu" target="_blank" rel="noopener">Sentinel-2 cloudless</a> <span data-i18n="credits.base.eox">par EOX
           (données Copernicus Sentinel modifiées 2020)</span></li>
       <li><b data-i18n="credits.toponyms">Toponymes</b> — <a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> /

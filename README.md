@@ -58,7 +58,22 @@ python3 -m http.server 8777
 
 Puis ouvrir <http://localhost:8777>. Un jeu de données figé est versionné dans
 `data/` pour que la carte s'affiche dès le clonage — les `fetch()` de la page
-échouent en `file://`, il faut donc bien passer par un serveur.
+échouent en `file://`, il faut donc bien passer par un serveur. Sous Windows, la
+commande s'écrit `python -m http.server 8777`. Ce serveur laisse le navigateur
+garder les fichiers en cache : pendant le développement, préférer
+`python scripts/serve_no_cache.py`, sinon recharger avec Ctrl+F5.
+
+### Fonds de carte et nouvelles couches
+
+Le menu **Calques** choisit le fond : satellite (par défaut) ou Plan IGN v2,
+tous deux servis sans clé par la Géoplateforme de l'IGN ; le front n'a donc pas
+de fichier `.env`. Le Plan couvre la France et ses abords : ailleurs, Sentinel-2
+reste affiché, sans noms de lieux.
+
+- **Ajouter un fond :** sa source et sa couche dans `js/map/base-style.js`, sa
+  règle de visibilité dans `js/map/basemaps.js`, puis un bouton dans `index.html`.
+- **Ajouter une couche de données :** un contrôleur dans `js/features/`, installé
+  depuis `init()` dans `js/main.js`, à côté des feux et des appareils.
 
 Pour régénérer les données depuis les sources réelles :
 

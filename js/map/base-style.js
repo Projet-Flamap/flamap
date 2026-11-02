@@ -1,4 +1,5 @@
 import { getLang } from '../i18n.js';
+import { PLAN_PROTOCOL } from './plan-tiles.js';
 
 // OpenMapTiles expose les traductions sous la forme `name_xx`. Le nom local
 // reste le meilleur repli lorsque la traduction demandée n'existe pas.
@@ -30,6 +31,16 @@ export function createBaseStyle() {
               + '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&TILEMATRIXSET=PM'
               + '&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/jpeg'],
       },
+      // Plan IGN v2 : même service que l'ortho-photo, et même absence de clé.
+      // `bounds` évite de demander des tuiles qui n'existent pas sur la péninsule ;
+      // le protocole traite celles qui manquent encore près des frontières.
+      plan: {
+        type: 'raster', tileSize: 256, maxzoom: 19,
+        bounds: [-5.5, 41.3, 9.7, 51.2],
+        tiles: [`${PLAN_PROTOCOL}://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0`
+              + '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&TILEMATRIXSET=PM'
+              + '&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png'],
+      },
       // Libellés vectoriels : contrairement aux anciennes tuiles raster CARTO,
       // leur langue peut être choisie côté client.
       toponyms: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' },
@@ -37,6 +48,8 @@ export function createBaseStyle() {
     layers: [
       { id: 'sat', type: 'raster', source: 'sat' },
       { id: 'ortho', type: 'raster', source: 'ortho' },
+      // Masqué par défaut : aucune tuile n'est demandée tant qu'on ne le choisit pas.
+      { id: 'plan', type: 'raster', source: 'plan', layout: { visibility: 'none' } },
       { id: 'label-water-point', type: 'symbol', source: 'toponyms', 'source-layer': 'water_name',
         filter: ['match', ['geometry-type'], ['Point', 'MultiPoint'], true, false],
         layout: {

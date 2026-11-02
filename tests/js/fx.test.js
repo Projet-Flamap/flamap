@@ -186,3 +186,21 @@ test('les champs de vent régionaux couvrent chacun leur emprise, le premier pri
     globalThis.cancelAnimationFrame = previous.cancelAnimationFrame;
   }
 });
+
+test('le vent passe en bleu foncé sur fond clair et peut revenir', () => {
+  const wind = createWindController({
+    mobile: false,
+    map: { on() {}, getCanvas: () => ({}) },
+    canvas: { getContext: () => ({}), style: {} },
+    key: { hidden: false },
+    value: {},
+    getManifest: () => null,
+  });
+  const before = wind.getExportLanes().map(lane => lane[1]);
+  wind.setLightBase(true);
+  const light = wind.getExportLanes().map(lane => lane[1]);
+  assert.notDeepEqual(light, before);
+  assert.ok(light.every(color => Number(color.match(/\d+/)[0]) < 100), 'couleurs foncées attendues');
+  wind.setLightBase(false);
+  assert.deepEqual(wind.getExportLanes().map(lane => lane[1]), before);
+});

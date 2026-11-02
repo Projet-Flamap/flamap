@@ -53,7 +53,6 @@ const exportToast = document.getElementById('export-toast');
 let exportToastTimer = null;
 let exportKind = 'still';
 let gifEncoderPromise = null;
-const WIND_LANE = windController.getExportLanes();
 const windAt = (...args) => windController.at(...args);
 
 function exportMessage(message) {
@@ -151,6 +150,8 @@ function drawExportSmoke(ctx, exportMap, parts = null,
 
 function drawExportWind(ctx, exportMap, enabled, phase = 0) {
   if (!enabled || !windController.hasCurrent()) return;
+  // Relues à chaque image : leurs couleurs dépendent du fond de carte choisi.
+  const WIND_LANE = windController.getExportLanes();
   const lanes = WIND_LANE.map(() => []), out = {};
   const cols = 37, rows = 21;
   for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
@@ -227,11 +228,14 @@ function drawExportBrand(ctx) {
 }
 
 function drawExportFooter(ctx, generatedAt, shownTime = getTimelineController().getTime(), media = 'still') {
-  const gradient = ctx.createLinearGradient(0, 444, 0, EXPORT_H);
+  // Ce pied est dessiné à l'échelle de l'interface : le bas de l'image n'y vaut
+  // pas EXPORT_H, sans quoi le dégradé sortirait du cadre avant de foncer.
+  const bottom = EXPORT_H / EXPORT_UI_SCALE;
+  const gradient = ctx.createLinearGradient(0, 444, 0, bottom);
   gradient.addColorStop(0, 'rgba(8,10,12,0)');
   gradient.addColorStop(.5, 'rgba(8,10,12,.70)');
   gradient.addColorStop(1, 'rgba(8,10,12,.95)');
-  ctx.fillStyle = gradient; ctx.fillRect(0, 444, EXPORT_W, EXPORT_H - 444);
+  ctx.fillStyle = gradient; ctx.fillRect(0, 444, EXPORT_W / EXPORT_UI_SCALE, bottom - 444);
 
   ctx.textBaseline = 'alphabetic';
   ctx.font = '500 9.5px "Instrument Sans", sans-serif';

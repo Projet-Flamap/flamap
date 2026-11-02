@@ -67,6 +67,9 @@
        de lui plutôt qu'à côté : hors du flux, il ne rétrécit pas la réglette en
        s'ouvrant. C'est aussi ce qui rendait la barre du bas inutilisable entre
        721 et 900 px de large, où les 280 px de crédits mangeaient le curseur. */
+    /* Au-dessus du bouton d'export, sur le même bord droit. */
+    .maplibregl-ctrl-bottom-right { bottom: 108px; }
+    .maplibregl-ctrl-bottom-right > .maplibregl-ctrl { margin: 0 14px 5px 0; }
     #dock-foot { position: absolute; right: 14px; bottom: 0;
                  display: flex; align-items: flex-end; gap: 6px; }
     #cr-btn { padding: 8px 12px; }
@@ -121,6 +124,12 @@
   @media (min-width: 721px) and (max-width: 1180px) {
     #legend { bottom: 80px; }
     #timebar { width: min(620px, calc(100vw - 80px)); }
+  }
+
+  /* Centrée, la frise passerait sous « ES / Sources & crédits » : à cette largeur,
+     elle s'aligne à gauche et s'arrête avant cette rangée. */
+  @media (min-width: 721px) and (max-width: 1020px) {
+    #timebar { left: 26px; transform: none; width: min(620px, calc(100vw - 226px)); }
   }
 
   /* =======================  MOBILE  ======================== */
@@ -268,6 +277,8 @@
     /* Le bas est compose de cartes flottantes distinctes : la legende explique
        la carte, la frise la pilote. Les fondre dans une seule feuille donnait
        l'impression d'un gros formulaire et mangeait inutilement l'imagerie. */
+    /* Le dock change de hauteur : `placeClock` mesure ce qu'il faut dégager. */
+    .maplibregl-ctrl-bottom-left { bottom: var(--dock-clearance, 200px); }
     #dock {
       position: absolute; z-index: 500; left: 10px; right: 10px;
       bottom: calc(10px + var(--safe-b));

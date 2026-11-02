@@ -181,6 +181,9 @@ export const STRINGS = {
 
   /* ---------- calques ---------- */
   'layers.aria': { fr: 'Calques', es: 'Capas' },
+  'layers.basemap': { fr: 'Fond de carte', es: 'Mapa base' },
+  'layers.basemap.satellite': { fr: 'satellite', es: 'satélite' },
+  'layers.basemap.plan': { fr: 'plan IGN', es: 'plano IGN' },
   'layers.psfdf': {
     fr: 'incendies signalés (PSFDF, détection auto)',
     es: 'incendios notificados (PSFDF, detección automática)',
@@ -605,7 +608,7 @@ export const STRINGS = {
     es: 'simulación orientativa a partir de la potencia radiativa FIRMS y del viento modelizado; no es una medida de calidad del aire',
   },
   'credits.base': { fr: 'Fond', es: 'Base cartográfica' },
-  'credits.base.ign': { fr: 'ortho-photo', es: 'ortofoto' },
+  'credits.base.ign': { fr: 'ortho-photo et Plan IGN', es: 'ortofoto y Plan IGN' },
   'credits.base.outside': { fr: 'hors France', es: 'fuera de Francia' },
   'credits.base.eox': {
     fr: 'par EOX (données Copernicus Sentinel modifiées 2020)',

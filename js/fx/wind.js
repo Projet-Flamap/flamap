@@ -63,6 +63,9 @@ export function createWindController({
     [10,       'rgba(224,241,255,.70)', mobile ? 1.1 : 1.2],
     [Infinity, 'rgba(255,255,255,.88)', mobile ? 1.3 : 1.5],
   ];
+  const ON_IMAGERY = lanes.map(lane => lane[1]);
+  // Sur un fond clair le blanc disparaît : la même progression, de bleu en marine.
+  const ON_LIGHT = ['rgba(38,104,168,.60)', 'rgba(22,74,132,.75)', 'rgba(10,44,92,.90)'];
   /* `data` reste le champ de référence — celui qui porte la température de
    * repli et les prévisions. `fields` le contient en premier, suivi des champs
    * régionaux : ils ne se recouvrent qu'en marge, et le premier qui couvre le
@@ -346,6 +349,10 @@ export function createWindController({
     },
     configure: data => { W.data = data; W.fields = data ? [data] : []; },
     getExportLanes: () => lanes.map(lane => [...lane]),
+    setLightBase: light => {
+      const colors = light ? ON_LIGHT : ON_IMAGERY;
+      lanes.forEach((lane, i) => { lane[1] = colors[i]; });
+    },
     getProjection: (out = {}) => {
       out.current = !!W.cur; out.lon0 = W.lon0; out.dLon = W.dLon;
       out.y0 = W.y0; out.dY = W.dY;

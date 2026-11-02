@@ -15,6 +15,7 @@ import {
 import { createWeatherController } from './features/weather.js';
 import { createMapExportController } from './export/map-export.js';
 import { createMap } from './map/create-map.js';
+import { registerPlanProtocol } from './map/plan-tiles.js';
 import {
   agePos,
   createAgeRamps,
@@ -28,6 +29,8 @@ import { CARD, createWindController } from './fx/wind.js';
 import { createActivityController } from './timeline/activity.js';
 import { createTimelineController } from './timeline/controller.js';
 import { addForecast, buildSteps } from './timeline/model.js';
+import { installBasemapSwitcher } from './ui/basemap-switcher.js';
+import { createCursorCoords } from './ui/cursor-coords.js';
 import { createLocationController } from './ui/location.js';
 import { createPanelManager } from './ui/panel-manager.js';
 import { createNotificationsController } from './ui/notifications.js';
@@ -113,7 +116,8 @@ const FRANCE_BBOX = [-5.5, 41.0, 10.0, 51.5];
 // Le test sert plus bas à ne pas recadrer sur la vue d'ensemble par-dessus un
 // lien partagé qui porte déjà une caméra.
 const HAS_MAP_HASH = /^#map=/.test(location.hash);
-const map = createMap({ maplibregl, mobile: MOBILE });
+registerPlanProtocol(maplibregl);
+const map = createMap({ maplibregl, mobile: MOBILE, scale: true });
 const notificationsController = createNotificationsController({ button: document.getElementById('notifications-open'), panel: document.getElementById('notifications-panel'), close: document.getElementById('notifications-close'), map });
 const panelManager = createPanelManager();
 const locationController = createLocationController({
@@ -240,6 +244,8 @@ const setWeatherOpen = open => weatherController.setOpen(open);
 const openWeatherAt = lngLat => weatherController.openAt(lngLat);
 const weatherCoordinates = point => weatherController.coordinates(point);
 const communeAt = (...args) => weatherController.communeAt(...args);
+// Pas de curseur sur téléphone. Cinq décimales : le mètre, à l'échelle de la souris.
+if (!MOBILE) createCursorCoords({ map, format: point => weatherController.coordinates(point, 5) });
 
 function setUpdatesOpen(open) {
   updatesPanel.classList.toggle('open', open);
@@ -316,6 +322,7 @@ function placeClock() {
   if (MOBILE) {
     const legendBtn = document.getElementById('legend-btn');
     const clockH = clockEl.getBoundingClientRect().height;
+    document.documentElement.style.setProperty('--dock-clearance', `${innerHeight - r.top + 8}px`);
     const stackBottom = innerHeight - r.top + 18 + clockH;
     legendBtn.style.bottom = `${stackBottom}px`;
     const exportBottom = stackBottom + 50;
@@ -991,6 +998,13 @@ async function init() {
   // Les appareils restent au-dessus des foyers et des surfaces : à basse
   // altitude, plusieurs peuvent se superposer exactement au front actif.
   aircraftController.install();
+  // Nouvelle couche : un contrôleur dans js/features/, installé ci-dessus. Le fond
+  // de carte reste dessous, car ses couches appartiennent au style de base.
+  installBasemapSwitcher({
+    map,
+    inputs: [...document.querySelectorAll('input[name="basemap"]')],
+    onChange: name => windController.setLightBase(name === 'plan'),
+  });
 
   if (windData && windData.nt > 1) {
     windController.configure(windData);
