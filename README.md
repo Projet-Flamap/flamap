@@ -26,6 +26,12 @@ Un **curseur temporel** rejoue la progression du feu sur dix jours. Un menu
 donne les prévisions horaires d'un point, et un bouton d'export produit une
 image PNG ou un GIF de l'évolution.
 
+Une **barre de recherche** centre la carte sur une adresse ou une commune
+française, un code postal ou des coordonnées GPS (latitude, longitude) : un
+marqueur repère le résultat et une commune affiche son contour. Le bouton ×
+efface le tout. Les adresses et les communes ne couvrent que la France ; les
+coordonnées valent partout.
+
 Les **notifications** sont volontairement discrètes : elles se règlent depuis
 le panneau « Mises à jour des données ». Le bouton « + Ajouter » propose de
 rechercher une adresse française ou de placer directement le centre sur la
@@ -74,6 +80,20 @@ reste affiché, sans noms de lieux.
   règle de visibilité dans `js/map/basemaps.js`, puis un bouton dans `index.html`.
 - **Ajouter une couche de données :** un contrôleur dans `js/features/`, installé
   depuis `init()` dans `js/main.js`, à côté des feux et des appareils.
+
+### Recherche de lieu
+
+La logique vit dans `js/search/`, sans dépendre du DOM ni de la carte :
+`coordinates.js` reconnaît les coordonnées sans appel réseau, `geocoder.js`
+interroge la Géoplateforme et `engine.js` enchaîne les fournisseurs, avec le délai
+de frappe de 300 ms et l'annulation des requêtes périmées. La barre est dans
+`js/ui/place-search.js`, le marqueur et le contour dans
+`js/features/search-result.js`.
+
+**Ajouter un type de recherche :** un fournisseur
+`{ id, resolve(text, { signal }) }` à placer dans la liste passée à
+`createSearchEngine()` dans `js/main.js`. Il renvoie `null` si la saisie ne le
+concerne pas ; le contrat de ses réponses est décrit en tête de `engine.js`.
 
 Pour régénérer les données depuis les sources réelles :
 

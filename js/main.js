@@ -5,6 +5,7 @@ import { EMPTY, json } from './data/client.js';
 import { loadInitialData, loadRegionalWind } from './data/initial.js';
 import { createZonesController } from './data/zones.js';
 import { createBurntController } from './features/burnt.js';
+import { createSearchResultController } from './features/search-result.js';
 import { createAircraftController } from './features/aircraft.js';
 import {
   createPsfdfController,
@@ -31,8 +32,12 @@ import { createTimelineController } from './timeline/controller.js';
 import { addForecast, buildSteps } from './timeline/model.js';
 import { installBasemapSwitcher } from './ui/basemap-switcher.js';
 import { createCursorCoords } from './ui/cursor-coords.js';
+import { coordinatesProvider } from './search/coordinates.js';
+import { createSearchEngine } from './search/engine.js';
+import { createGeocoderProvider } from './search/geocoder.js';
 import { createLocationController } from './ui/location.js';
 import { createPanelManager } from './ui/panel-manager.js';
+import { createPlaceSearch } from './ui/place-search.js';
 import { createNotificationsController } from './ui/notifications.js';
 import { createPopupRouter } from './ui/popup-router.js';
 import { createPopupView, popEl, popRoot, popRow } from './ui/popup-view.js';
@@ -120,6 +125,23 @@ registerPlanProtocol(maplibregl);
 const map = createMap({ maplibregl, mobile: MOBILE, scale: true });
 const notificationsController = createNotificationsController({ button: document.getElementById('notifications-open'), panel: document.getElementById('notifications-panel'), close: document.getElementById('notifications-close'), map });
 const panelManager = createPanelManager();
+const searchResultController = createSearchResultController({
+  map,
+  maplibregl,
+  padding: () => ({
+    top: 90,
+    bottom: document.getElementById('dock').offsetHeight + 40,
+    left: MOBILE ? 24 : 60,
+    right: MOBILE ? 64 : 60,
+  }),
+});
+createPlaceSearch({
+  form: document.getElementById('place-search'),
+  engine: createSearchEngine([coordinatesProvider, createGeocoderProvider()]),
+  onSelect: result => searchResultController.show(result),
+  onClear: () => searchResultController.clear(),
+  blurOnSelect: MOBILE,
+});
 const locationController = createLocationController({
   map,
   trackUsage,
@@ -993,6 +1015,8 @@ async function init() {
   map.addSource('hs', { type: 'geojson', data: detail ? detail.hotspots : EMPTY });
 
   burntController.install(manifest);
+  // Au-dessus des surfaces brûlées, sous les foyers qu'il ne doit pas masquer.
+  searchResultController.install();
   firesController.install(manifest);
   psfdfController.install();
   // Les appareils restent au-dessus des foyers et des surfaces : à basse

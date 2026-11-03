@@ -46,6 +46,20 @@ https://data.geopf.fr/geocodage/reverse/?lon={lon}&lat={lat}&limit=1
 Cet enrichissement reste côté navigateur et à la demande ; son indisponibilité
 n'empêche pas l'affichage des coordonnées ni des données météo.
 
+La barre de recherche interroge le géocodage de la Géoplateforme, public et sans
+clé, depuis le navigateur. Les suggestions et le choix final viennent de l'index
+des adresses ; le contour d'une commune, demandé seulement quand elle est choisie,
+de l'index des points d'intérêt :
+
+```
+https://data.geopf.fr/geocodage/search?q={saisie}&index=address&limit=6
+https://data.geopf.fr/geocodage/search?q={nom}&index=poi&category=commune&citycode={insee}&returntruegeometry=true&limit=1
+```
+
+Le service ne couvre que la France et limite le débit à 50 requêtes par seconde et
+par IP. Les coordonnées GPS sont lues localement, sans appel. La saisie part donc
+chez l'IGN, mais Flamap ne la conserve pas.
+
 PSFDF ne suit que la France. Pour l'Ibérie, `flamap/heuristic_fires.py`
 publie dans le même fichier un équivalent purement dérivé de FIRMS : un amas
 d'au moins `HEURISTIC_MIN_HOTSPOTS` foyers distincts, rapprochés à moins de

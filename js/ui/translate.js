@@ -12,6 +12,7 @@ import { getLang, storeLang, t } from '../i18n.js';
  *   data-i18n-html   → innerHTML (uniquement les clés qui portent du balisage)
  *   data-i18n-title  → title
  *   data-i18n-label  → aria-label
+ *   data-i18n-placeholder → placeholder
  *   data-i18n-content→ content (balises <meta>)
  *   data-i18n-href   → href (pages qui existent en deux versions)
  *
@@ -25,6 +26,7 @@ import { getLang, storeLang, t } from '../i18n.js';
 const ATTRIBUTES = [
   ['data-i18n-title', 'i18nTitle', 'title'],
   ['data-i18n-label', 'i18nLabel', 'aria-label'],
+  ['data-i18n-placeholder', 'i18nPlaceholder', 'placeholder'],
   ['data-i18n-content', 'i18nContent', 'content'],
   ['data-i18n-href', 'i18nHref', 'href'],
 ];

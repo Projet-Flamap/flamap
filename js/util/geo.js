@@ -32,6 +32,14 @@ export function unionBbox(boxes) {
   ]);
 }
 
+/* Emprise [ouest, sud, est, nord] d'un Polygon ou d'un MultiPolygon. */
+export function geometryBbox(geometry) {
+  const positions = geometry.coordinates.flat(geometry.type === 'Polygon' ? 1 : 2);
+  const lngs = positions.map(position => position[0]);
+  const lats = positions.map(position => position[1]);
+  return [Math.min(...lngs), Math.min(...lats), Math.max(...lngs), Math.max(...lats)];
+}
+
 export const signed = value =>
   `${value >= 0 ? '+' : '-'}${String(Math.abs(value)).padStart(2, '0')}`;
 

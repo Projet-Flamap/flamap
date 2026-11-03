@@ -200,6 +200,26 @@
     Corse, l'Espagne continentale, les Baléares et le Portugal.</p>
   </section>
 </div>
+<form id="place-search" role="search" autocomplete="off" novalidate
+      data-i18n-label="search.aria" aria-label="Rechercher un lieu">
+  <div class="place-search-field glass">
+    <svg class="place-search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path>
+    </svg>
+    <input id="place-search-input" type="text" role="combobox" maxlength="200"
+           autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"
+           aria-autocomplete="list" aria-expanded="false" aria-controls="place-search-list"
+           data-i18n-label="search.input" aria-label="Adresse ou commune en France, code postal ou coordonnées GPS"
+           data-i18n-title="search.input" title="Adresse ou commune en France, code postal ou coordonnées GPS"
+           data-i18n-placeholder="search.placeholder" placeholder="Lieu en France ou GPS">
+    <button class="place-search-clear" type="button" hidden
+            data-i18n-label="search.clear" aria-label="Effacer la recherche"
+            data-i18n-title="search.clear" title="Effacer la recherche">×</button>
+  </div>
+  <ul id="place-search-list" class="place-search-list glass" role="listbox" hidden
+      data-i18n-label="search.results" aria-label="Suggestions"></ul>
+  <p class="place-search-status glass" role="status" hidden></p>
+</form>
 <div id="incidents" hidden data-i18n-label="incidents.aria"
      aria-label="Raccourcis vers les incendies importants"></div>
 <aside id="psfdf-panel" class="glass" aria-labelledby="psfdf-panel-title" hidden>

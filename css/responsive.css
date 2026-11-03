@@ -1,4 +1,10 @@
 
+  /* Fenêtre étroite : la barre s'efface entre le logo et les commandes, et ne
+     prend sa pleine largeur que le temps de la saisie, par-dessus ces dernières. */
+  @media (min-width: 721px) and (max-width: 950px) {
+    #place-search:focus-within { width: 340px; }
+  }
+
   /* =======================  DESKTOP  ======================= */
   @media (min-width: 721px) {
     /* Les trois blocs ancres a gauche gardent une respiration genereuse sans
@@ -213,6 +219,14 @@
     #psfdf-panel .psfdf-activity-chart { height: 108px; }
     #psfdf-panel .psfdf-detail-status { display: none; }
     #head { top: 10px; left: 10px; padding: 9px 15px 10px; }
+    /* À droite du logo : le bandeau des incendies reste à sa place, dessous. Le
+       corps de 16 px évite le zoom automatique de la page sur iOS. */
+    #place-search { top: 10px; left: 157px; right: 10px; width: auto; }
+    .place-search-field { height: 42px; }
+    #place-search-input { font-size: 16px; }
+    #place-search-input::placeholder { font-size: 14px; }
+    .place-search-list, .place-search-status { position: fixed; top: 72px; left: 10px; right: 10px;
+                                               margin: 0; }
     #head .brand { gap: 8px; }
     #head .mark { width: 36px; }
     #head h1 { font-size: 19px; }

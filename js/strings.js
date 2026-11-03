@@ -131,6 +131,34 @@ export const STRINGS = {
   'notifications.searchError': { fr: 'Adresse introuvable pour le moment.', es: 'No se encontró la dirección por el momento.' },
   'notifications.error': { fr: 'Impossible d’activer les notifications pour le moment.', es: 'No se pudieron activar las notificaciones por el momento.' },
 
+  /* ---------- recherche de lieu ---------- */
+  'search.aria': { fr: 'Rechercher un lieu', es: 'Buscar un lugar' },
+  'search.input': {
+    fr: 'Adresse ou commune en France, code postal ou coordonnées GPS',
+    es: 'Dirección o municipio en Francia, código postal o coordenadas GPS',
+  },
+  'search.placeholder': { fr: 'Lieu en France ou GPS', es: 'Lugar en Francia o GPS' },
+  'search.clear': { fr: 'Effacer la recherche', es: 'Borrar la búsqueda' },
+  'search.results': { fr: 'Suggestions', es: 'Sugerencias' },
+  'search.noResults': {
+    fr: 'Aucun résultat en France pour « {query} ». Vérifiez l’orthographe ou saisissez des coordonnées GPS.',
+    es: 'Sin resultados en Francia para «{query}». Comprueba la ortografía o introduce coordenadas GPS.',
+  },
+  'search.apiError': {
+    fr: 'Le service de recherche ne répond pas. Réessayez dans quelques instants ; les coordonnées GPS restent utilisables.',
+    es: 'El servicio de búsqueda no responde. Inténtalo de nuevo en unos instantes; las coordenadas GPS siguen disponibles.',
+  },
+  'search.tooShort': { fr: 'Saisissez au moins 3 caractères.', es: 'Introduce al menos 3 caracteres.' },
+  'search.coordinates.context': { fr: 'Coordonnées GPS', es: 'Coordenadas GPS' },
+  'search.coordinates.invalid': {
+    fr: 'Coordonnées invalides : la latitude va de -90 à 90, la longitude de -180 à 180.',
+    es: 'Coordenadas no válidas: la latitud va de -90 a 90 y la longitud de -180 a 180.',
+  },
+  'search.coordinates.incomplete': {
+    fr: 'Coordonnées incomplètes : indiquez la latitude puis la longitude, par exemple 49.1193, 6.1757.',
+    es: 'Coordenadas incompletas: indica la latitud y luego la longitud, por ejemplo 49.1193, 6.1757.',
+  },
+
   'intro.aria': { fr: 'Présentation de Flamap', es: 'Presentación de Flamap' },
   'intro.heading': {
     fr: 'Suivre les incendies et feux de forêt en cours en France et en Espagne',
